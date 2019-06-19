@@ -1,5 +1,6 @@
 package com.example.hpquiz
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -16,6 +17,7 @@ class QuizActivity : AppCompatActivity() {
     private var cAnswer: String = ""
     private var mScore: Int = 0
     private var qCount: Int = 1
+    private var option: String = ""
 
     val questionList: MutableList<Question> = ArrayList()
 
@@ -33,74 +35,26 @@ class QuizActivity : AppCompatActivity() {
 
         val option1 = findViewById<Button>(R.id.option1)
         option1.setOnClickListener {
-            if (option1.text.equals(cAnswer)) {
-                mScore++
-                qCount++
-                score?.text = "Score: " + mScore.toString()
-                questionCount?.text = "Question: " + qCount.toString() + "/10"
-                if (iterator == 9) {
-                    gameOver()
-                } else {
-                    iterator++
-                    newQuestion()
-                }
-            } else {
-                gameOver()
-            }
+            option = option1.text.toString()
+            checkAnswer()
         }
 
         val option2 = findViewById<Button>(R.id.option2)
         option2.setOnClickListener {
-            if (option2.text.equals(cAnswer)) {
-                mScore++
-                qCount++
-                score?.text = "Score: " + mScore.toString()
-                questionCount?.text = "Question: " + qCount.toString() + "/10"
-                if (iterator == 9) {
-                    gameOver()
-                } else {
-                    iterator++
-                    newQuestion()
-                }
-            } else {
-                gameOver()
-            }
+            option = option2.text.toString()
+            checkAnswer()
         }
 
         val option3 = findViewById<Button>(R.id.option3)
         option3.setOnClickListener {
-            if (option3.text.equals(cAnswer)) {
-                mScore++
-                qCount++
-                score?.text = "Score: " + mScore.toString()
-                questionCount?.text = "Question: " + qCount.toString() + "/10"
-                if (iterator == 14) {
-                    gameOver()
-                } else {
-                    iterator++
-                    newQuestion()
-                }
-            } else {
-                gameOver()
-            }
+            option = option3.text.toString()
+            checkAnswer()
         }
 
         val option4 = findViewById<Button>(R.id.option4)
         option4.setOnClickListener {
-            if (option4.text.equals(cAnswer)) {
-                mScore++
-                qCount++
-                score?.text = "Score: " + mScore.toString()
-                questionCount?.text = "Question: " + qCount.toString() + "/10"
-                if (iterator == 9) {
-                    gameOver()
-                } else {
-                    iterator++
-                    newQuestion()
-                }
-            } else {
-                gameOver()
-            }
+            option = option4.text.toString()
+            checkAnswer()
         }
 
     }
@@ -206,7 +160,32 @@ class QuizActivity : AppCompatActivity() {
         return questionList[i].component6()
     }
 
+    private fun checkAnswer() {
+        if (option.equals(cAnswer)) {
+            mScore++
+            score?.text = "Score: " + mScore.toString()
+            countGames()
+        } else {
+            countGames()
+        }
+    }
+
+    private fun countGames() {
+        if (iterator == 14) {
+            gameOver()
+        } else {
+            qCount++
+            questionCount?.text = "Question: " + qCount.toString() + "/15"
+            iterator++
+            newQuestion()
+        }
+    }
+
     private fun gameOver() {
+        val intent = Intent(this@QuizActivity, ResultActivity::class.java).apply {
+            putExtra("mScore", mScore.toString())
+        }
+        startActivity(intent)
         finish()
     }
 }
