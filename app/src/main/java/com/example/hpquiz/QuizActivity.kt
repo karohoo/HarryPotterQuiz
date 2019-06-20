@@ -3,7 +3,9 @@ package com.example.hpquiz
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.SystemClock
 import android.widget.Button
+import android.widget.Chronometer
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_quiz.*
 
@@ -12,7 +14,7 @@ class QuizActivity : AppCompatActivity() {
     private var question: TextView? = null
     private var score: TextView? = null
     private var questionCount: TextView? = null
-    private var countDown: TextView? = null
+    private var countDown: Chronometer? = null
     private var iterator: Int = 0
     private var cAnswer: String = ""
     private var mScore: Int = 0
@@ -66,6 +68,14 @@ class QuizActivity : AppCompatActivity() {
         option3?.text = addOption3(iterator)
         option4?.text = addOption4(iterator)
         cAnswer = addCorrectAnswer(iterator)
+        countdown_text.isCountDown = true
+        countdown_text.base = SystemClock.elapsedRealtime() + 30000
+        countdown_text.start()
+        countdown_text.setOnChronometerTickListener {
+            if (countdown_text.text.toString().equals("00:00")) {
+                gameOver()
+            }
+        }
     }
 
     private fun addQuestions(i: Int): String {
@@ -119,7 +129,7 @@ class QuizActivity : AppCompatActivity() {
                 "Peter Pettigrew", "Voldemort", "Sirius Black", "Barty Crouch, Jr", "Barty Crouch, Jr")
 
         val question15 = Question("When Dumbledore and Harry first visit Horace Slughorn, what is he disguised as?", "" +
-                "An armchair", "A lampshade", "A house elf", "A giraffe", "An Armchair")
+                "An armchair", "A lampshade", "A house elf", "A giraffe", "An armchair")
 
         questionList.add(question1)
         questionList.add(question2)
