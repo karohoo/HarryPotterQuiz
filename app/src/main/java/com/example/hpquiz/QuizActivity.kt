@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.widget.Button
 import android.widget.Chronometer
+import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_quiz.*
 
 class QuizActivity : AppCompatActivity() {
@@ -15,6 +17,7 @@ class QuizActivity : AppCompatActivity() {
     private var score: TextView? = null
     private var questionCount: TextView? = null
     private var countDown: Chronometer? = null
+    private var image: ImageView? = null
     private var iterator: Int = 0
     private var cAnswer: String = ""
     private var mScore: Int = 0
@@ -32,6 +35,7 @@ class QuizActivity : AppCompatActivity() {
         score = findViewById(R.id.view_score_text)
         questionCount = findViewById(R.id.question_count_text)
         countDown = findViewById(R.id.countdown_text)
+        image = findViewById(R.id.quiz_image)
 
         newQuestion()
 
@@ -67,6 +71,7 @@ class QuizActivity : AppCompatActivity() {
         option2?.text = addOption2(iterator)
         option3?.text = addOption3(iterator)
         option4?.text = addOption4(iterator)
+        image?.setImageResource(addImage(iterator))
         cAnswer = addCorrectAnswer(iterator)
         countdown_text.isCountDown = true
         countdown_text.base = SystemClock.elapsedRealtime() + 30000
@@ -81,55 +86,57 @@ class QuizActivity : AppCompatActivity() {
     private fun addQuestions(i: Int): String {
         val question1 = Question("Which Potion is Known as \"Liquid Luck\"?",
             "Felix Felicis", "Polyjuice Potion", "Essence of Dittiny",
-            "Bottled Fame", "Felix Felicis")
+            "Bottled Fame", "Felix Felicis", R.drawable.liquidluck)
 
         val question2 = Question("Which of these was not a horcrux of Lord Voldemort?",
             "Nagini", "The Sword of Gryffindor", "The Diadem of Ravenclaw",
-            "Tom Riddle's Diary", "The Sword of Gryffindor")
+            "Tom Riddle's Diary", "The Sword of Gryffindor", R.drawable.voldemort)
 
         val question3 = Question("What was the name of the Weasleys' owl?",
-            "Errol", "Hedwig", "Buckbeak", "Horus", "Errol")
+            "Errol", "Hedwig", "Buckbeak", "Horus", "Errol", R.drawable.errol)
 
         val question4 = Question("What material is inside of Harry Potter's wand?",
             "Phoenix Tailfeathers", "Dragon Heartstrings", "Shards of Unicorn Horn",
-            "Centaur Tears", "Phoenix Tailfeathers")
+            "Centaur Tears", "Phoenix Tailfeathers", R.drawable.wand)
 
         val question5 = Question("What was James Potter's nickname?", "Mooney", "Padfoot",
-            "Prongs", "Wormtail", "Prongs")
+            "Prongs", "Wormtail", "Prongs", R.drawable.james)
 
         val question6 = Question("After all this time?", "Yes", "It never stops",
-            "Always", "I still care", "Always")
+            "Always", "I still care", "Always", R.drawable.severus)
 
         val question7 = Question("What was Dumbledore's sisters name?", "Rita", "Minerva",
-            "Abella", "Ariana", "Ariana")
+            "Abella", "Ariana", "Ariana", R.drawable.ariana)
 
         val question8 = Question( "Which of these wizards was not a Death Eater?", "Gragoravich",
-            "Fenrir Greyback", "Peter Pettigrew", "Yaxley", "Gragoravich")
+            "Fenrir Greyback", "Peter Pettigrew", "Yaxley", "Gragoravich", R.drawable.deatheater)
 
         val question9 = Question("Finish this quote: \"I must not tell...\"", "Secrets", "Others",
-            "Lies", "The truth", "Lies")
+            "Lies", "The truth", "Lies", R.drawable.umbridge)
 
         val question10 = Question("What is the name of Fred and George's joke shop?", "Weasley Joke Emporium",
             "Fred & George's Wonder Emporium", "Zonko's Joke Shop", "Weasley's Wizard Wheezes",
-            "Weasley's Wizard Wheezes")
+            "Weasley's Wizard Wheezes", R.drawable.fredgeorge)
 
         val question11 = Question("Which Harry Potter word is now in the Oxford English Dictionary?", "Hogwarts",
-            "Voldemort", "Muggle", "Death Eater", "Muggle")
+            "Voldemort", "Muggle", "Death Eater", "Muggle", R.drawable.hogwarts)
 
         val question12 = Question("In order of birth, who are the seven Weasley siblings?",
             "Percy, Bill, George, Charlie, Fred, Ron, Ginny", "George, Fred, Percy, Bill, Charlie, Ron, Ginny",
             "Fred, Bill, Charlie, Percy, George, Ron, Ginny","Bill, Charlie, Percy, Fred, George, Ron, Ginny",
-            "Bill, Charlie, Percy, Fred, George, Ron, Ginny")
+            "Bill, Charlie, Percy, Fred, George, Ron, Ginny", R.drawable.weasley)
 
         val question13 = Question("What are the three Unforgivable Curses?", "Impedimenta, Incarcerous and Incendio",
             "Avada Kedavra, Crucio and Imperio", "Expelliarmus, Expecto Patronum and Diffindo",
-            "Sectumsempra, Diffinfo and Crucio", "Avada Kedavra, Crucio and Imperio")
+            "Sectumsempra, Diffinfo and Crucio", "Avada Kedavra, Crucio and Imperio", R.drawable.avada)
 
         val question14 = Question("Who poses as Mad-Eye Moody, Harry's 4th year Defense Against the Dark Arts professor?", "" +
-                "Peter Pettigrew", "Voldemort", "Sirius Black", "Barty Crouch, Jr", "Barty Crouch, Jr")
+                "Peter Pettigrew", "Voldemort", "Sirius Black", "Barty Crouch, Jr",
+            "Barty Crouch, Jr", R.drawable.madeye)
 
         val question15 = Question("When Dumbledore and Harry first visit Horace Slughorn, what is he disguised as?", "" +
-                "An armchair", "A lampshade", "A house elf", "A giraffe", "An armchair")
+                "An armchair", "A lampshade", "A house elf", "A giraffe",
+            "An armchair", R.drawable.horace)
 
         questionList.add(question1)
         questionList.add(question2)
@@ -168,6 +175,10 @@ class QuizActivity : AppCompatActivity() {
 
     private fun addCorrectAnswer(i: Int): String {
         return questionList[i].component6()
+    }
+
+    private fun addImage(i: Int): Int {
+        return questionList[i].component7()
     }
 
     private fun checkAnswer() {

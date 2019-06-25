@@ -13,7 +13,8 @@ class ResultActivity : AppCompatActivity() {
         setContentView(R.layout.activity_result)
 
         val mScore = intent.getStringExtra("mScore")
-        result.text = "Your score is " + mScore + "/15"
+
+        result.text = "You achieved the score: " + mScore + "/15"
         val play = findViewById<Button>(R.id.play)
         play.setOnClickListener {
             val intent = Intent(this@ResultActivity, QuizActivity::class.java)
