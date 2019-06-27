@@ -74,7 +74,7 @@ class QuizActivity : AppCompatActivity() {
         image?.setImageResource(addImage(iterator))
         cAnswer = addCorrectAnswer(iterator)
         countdown_text.isCountDown = true
-        countdown_text.base = SystemClock.elapsedRealtime() + 30000
+        countdown_text.base = SystemClock.elapsedRealtime() + 45000
         countdown_text.start()
         countdown_text.setOnChronometerTickListener {
             if (countdown_text.text.toString().equals("00:00")) {
